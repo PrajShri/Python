@@ -1,6 +1,6 @@
 """
 This script is to parse a fixed width file using Python For LFS test
-Command run: 
+Command: 
 python Parse_Lfs.py -i IpFile.txt -o OpFile_Name.csv -c Spec.txt -d ,
 Inputs are as follows
 1. Input FIle - Mandatory(Argument -i - File which has column names and fixed Width data in it)
@@ -38,17 +38,17 @@ def extant_file(x):
         raise argparse.ArgumentTypeError("{0} does not exist".format(x))
     return x
 
-parser = ArgumentParser(description="Please provide your Inputs as -i InputFile -o OutPutFile -c ConfigFile")
-parser.add_argument("-i", dest="InputFile", required=True,    help="Provide your Input file name here, if file is on different path than where this script resides then provide full path of the file", metavar="FILE", type=extant_file)
-parser.add_argument("-o", dest="OutputFile", required=False,    help="Provide your Output file name here, if file is on different path than where this script resides then provide full path of the file", metavar="FILE")
-parser.add_argument("-c", dest="ConfigFile", required=False,   help="Provide your Config file name here,File should have value as fieldName,fieldLength. if file is on different path than where this script resides then provide full path of the file", metavar="FILE",type=extant_file)
-parser.add_argument("-d", dest="Delimiter", required=False,   help="Provide the delimiter string you want",metavar="STRING", default=",")
+parser = ArgumentParser(description="Please provide parameters as -i InputFile -o OutPutFile -c ConfigFile")
+parser.add_argument("-i", dest="InputFile", required=True,    help="Provide Input file name here, provide full path of the file if is not in the current local folder", metavar="FILE", type=extant_file)
+parser.add_argument("-o", dest="OutputFile", required=False,    help="Provide Output file name here, provide full path of the file if is not in the current local folder", metavar="FILE")
+parser.add_argument("-c", dest="ConfigFile", required=False,   help="Provide Config file name here, provide full path of the file if is not in the current local folder", metavar="FILE",type=extant_file)
+parser.add_argument("-d", dest="Delimiter", required=False,   help="Provide the delimiter string",metavar="STRING", default=",")
 
 args = parser.parse_args()
 
 #Input file madatory
 InputFile = args.InputFile
-#Delimiter by default "|"
+#Delimiter by default ","
 DELIMITER = args.Delimiter
 
 #Output file checks
@@ -61,11 +61,11 @@ else:
 #Config file check
 if args.ConfigFile is None:
     if not os.path.exists("Spec.txt"):
-        print ("There is no Config File provided exiting the script")
+        print ("Config File is not provided, exiting the script")
         sys.exit()
     else:
         ConfigFile = "Spec.txt"
-        print ("Taking Spec.txt file on this path as Default Config File")
+        print ("Spec.txt file in current folder is considered as Default Config File")
 else:
     ConfigFile = args.ConfigFile
 
